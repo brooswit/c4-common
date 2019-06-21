@@ -7,6 +7,17 @@ function source(newUser, newRepo)
   })
 end
 
+function update(path, branch)
+  remove(path)
+  install(path, branch)
+end
+
+function remove(path)
+  if fs.exists(path) then
+    fs.delete(path)
+  end
+end
+
 function install(path, branch)
   branch = branch or "master"
   if fs.exists(path) then
