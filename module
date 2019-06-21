@@ -1,0 +1,41 @@
+local sources = {}
+
+function source(newUser, newRepo)
+  table.insert(sources, {
+    user = newUser,
+    repo = newRepo
+  })
+end
+
+function install(path, branch)
+  branch = branch or "master"
+  if fs.exists(path) then
+    print("module: module found locally")
+  else
+    fs.makeDir(path)
+    fs.delete(path)
+    local found = false
+    for index, source, in ipairs(sources) do
+      if not found then
+        local user = source.user
+        local repo = source.repo
+        
+        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. "repo .. "/" .. branch "/" .. path
+        local request = http.get(url)
+        
+        if request then
+          local response = request.readAll()
+          local file = fs.open(path, "w")
+          file.write(response)
+          file.close()
+          found = true
+        end
+      end
+    end
+    if found then
+      pring("module: module found remotely")
+    else
+      print("module: module not found")
+    end
+  end
+end
