@@ -9,6 +9,17 @@ function source(newUser, newRepo)
   })
 end
 
+function update(path, branch)
+  remove(path)
+  install(path, branch)
+end
+
+function remove(path)
+  if fs.exists(path) then
+    fs.delete(path)
+  end
+end
+
 function install(path)
   if fs.exists(path) then
     print("bootstrap: module " .. path .. " found locally")
@@ -42,6 +53,6 @@ function install(path)
 end
 
 source("brooswit", "ccc")
-install("module")
-install("install")
-install("update")
+update("module")
+update("install")
+update("update")
