@@ -31,7 +31,7 @@ function install(path, branch)
         local user = source.user
         local repo = source.repo
         
-        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch "/" .. path
+        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch .. "/" .. path
         local request = http.get(url)
         
         if request then
