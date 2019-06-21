@@ -1,32 +1,16 @@
 local store = {}
 
-function save()
-  local file = fs.open("config.json", "w")
-  file.write(textutils.serialize(store))
-  file.close()
-end
-
-function ensure()
-  if not fs.exists("config.json")
-    save()
-  end
-end
-
 function load()
-  ensure()
-  local file = fs.open("config.json", "r")
-  serializedConfig = file.readAll()
-  file.close()
+  if fs.exists("disk/config.json") or fs.exists("config.json")
+    local file = fs.open("disk/config.json", "r") or fs.open("config.json", "r")
+    serializedConfig = file.readAll()
+    file.close()
   
-  store = textutils.unserialize(serializedConfig)
+    store = textutils.unserialize(serializedConfig)
+  end
 end
 
 function get(key)
   load()
   return store[key]
-end
-
-function set(key, value)
-  store[key] = value
-  save()
 end
