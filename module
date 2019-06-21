@@ -51,4 +51,11 @@ function install(path, branch)
   end
 end
 
+function require(path, branch)
+  install(path, branch)
+  if fs.exists(path) then
+    loadAPI(path)
+  end
+end
+
 source("brooswit", "ccc")
