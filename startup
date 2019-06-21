@@ -1,5 +1,5 @@
 local args = { ... }
-local branch = args[1] || "master"
+local branch = args[1] or "master"
 local sources = {}
 
 function source(newUser, newRepo)
