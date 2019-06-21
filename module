@@ -44,7 +44,7 @@ function install(path, branch)
       end
     end
     if found then
-      pring("module: module found remotely")
+      print("module: module found remotely")
     else
       print("module: module not found")
     end
