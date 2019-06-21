@@ -26,7 +26,7 @@ function install(path, branch)
     fs.makeDir(path)
     fs.delete(path)
     local found = false
-    for index, source, in ipairs(sources) do
+    for index, source in ipairs(sources) do
       if not found then
         local user = source.user
         local repo = source.repo
