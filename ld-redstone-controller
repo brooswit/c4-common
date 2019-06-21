@@ -1,15 +1,16 @@
 os.loadAPI("module")
 module.require('ld')
+module.require('config')
 
-ldClientSideId = "CLIENT-SIDE-ID"
-ldFlagKey = "FLAG-KEY"
+ldClientSideId = config.get("ld-client-side-id")
+ldFlagKey = config.get("ld-flag-key")
 
 ld.init(ldClientSideId)
 
 while true do
-	sleep(0)
-    value = ld.variation(ldFlagKey, false)
-    for key,side in pairs(redstone.getSides()) do
-        redstone.setOutput(side, value)
-    end
+  value = ld.variation(ldFlagKey, false)
+  for key,side in pairs(redstone.getSides()) do
+    redstone.setOutput(side, value)
+  end
+  sleep(0)
 end
