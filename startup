@@ -32,7 +32,7 @@ function install(path)
         local user = source.user
         local repo = source.repo
         
-        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. "repo .. "/" .. branch "/" .. path
+        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch .. "/" .. path
         local request = http.get(url)
         
         if request then
@@ -45,7 +45,7 @@ function install(path)
       end
     end
     if found then
-      pring("bootstrap: module " .. path .. " found remotely")
+      print("bootstrap: module " .. path .. " found remotely")
     else
       print("bootstrap: ERROR module " .. path .. " not found")
     end
