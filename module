@@ -80,6 +80,7 @@ local function _update(path, branch)
 end
 
 function update(path, branch)
+  branch = branch or "master"
   print("module: updating '" .. path .. "/" .. branch .. "'")
   _update(path, branch)
 end
@@ -94,6 +95,7 @@ local function _require(path, branch)
 end
 
 function require(path, branch)
+  branch = branch or "master"
   print("module: requiring '" .. path .. "/" .. branch .. "'")
   _require(path, branch)
 end
