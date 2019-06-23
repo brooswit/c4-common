@@ -41,11 +41,6 @@ end
 
 
 
-function install(path, branch)
-  print("module: installing '" .. path .. "'")
-  _install(path, branch)
-end
-
 local function _install(path, branch)
   branch = branch or "master"
   if fs.exists(path) then
@@ -77,6 +72,11 @@ local function _install(path, branch)
       print("module: module '" .. path .. "' not found")
     end
   end
+end
+
+function install(path, branch)
+  print("module: installing '" .. path .. "'")
+  _install(path, branch)
 end
 
 
