@@ -1,17 +1,16 @@
-function update(path)
-  local url = "https://raw.githubusercontent.com/brooswit/ccc/master/" .. path
-  local request = http.get(url)
-  if request then
-    local response = request.readAll()
-    if fs.exists(path) then
-      fs.delete(path)
-    end
-    local file = fs.open(path, "w")
-    file.write(response)
-    file.close()
-  end
-end
+local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/module/")
 
-update("module")
-update("install")
-update("update")
+if request then
+  if fs.exists(path) then
+    fs.delete(path)
+  end
+  local file = fs.open(path, "w")
+  file.write(request.readAll())
+  file.close()
+
+  os.loadAPI("module")
+
+  module.update("install")
+  module.update("update")
+  module.update("bootstrap")
+end
