@@ -1,5 +1,5 @@
 function update(path)
-  local url = "https://raw.githubusercontent.com/brooswit/ccc/master/" .. path .. "?salt=" .. os.clock()
+  local url = "https://raw.githubusercontent.com/brooswit/ccc/master/" .. path
   local request = http.get(url)
   if request then
     local response = request.readAll()
