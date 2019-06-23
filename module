@@ -81,16 +81,16 @@ end
 
 
 
-function require(path, branch)
-  print("module: requiring '" .. path .. "'")
-  _require(path, branch)
-end
-
 local function _require(path, branch)
   install(path, branch)
   if fs.exists(path) then
     os.loadAPI(path)
   end
+end
+
+function require(path, branch)
+  print("module: requiring '" .. path .. "'")
+  _require(path, branch)
 end
 
 
