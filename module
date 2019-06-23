@@ -80,7 +80,7 @@ local function _update(path, branch)
 end
 
 function update(path, branch)
-  print("module: updating '" .. path .. "/" .. branch ..'")
+  print("module: updating '" .. path .. "/" .. branch .. "'")
   _update(path, branch)
 end
 
