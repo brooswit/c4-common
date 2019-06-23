@@ -4,4 +4,7 @@ os.loadAPI("module")
 local path = args[1]
 local branch = args[2]
 
-module.update(path, branch)
+local user = args[3]
+local repo = args[4]
+
+module.update(path, branch, user, repo)
