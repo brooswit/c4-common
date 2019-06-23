@@ -1,24 +1,52 @@
 local sources = {}
 
-function source(newUser, newRepo)
+
+
+local function _source
   table.insert(sources, {
     user = newUser,
     repo = newRepo
   })
 end
 
-function update(path, branch)
+function source(newUser, newRepo)
+  print("module: adding source '" .. newUser .. "/" .. newRepo .. "'")
+  _source(newUesr, newRepo)
+end
+
+
+
+local function _update(path, branch)
   remove(path)
   install(path, branch)
 end
 
-function remove(path)
+function update(path, branch)
+  print("module: updating '" .. path .. "'")
+  _update(path, branch)
+end
+
+
+
+local function _remove(path)
   if fs.exists(path) then
     fs.delete(path)
   end
 end
 
+function remove(path)
+  print("module: removing '" .. path .. "'")
+  _remove(path)
+end
+
+
+
 function install(path, branch)
+  print("module: installing '" .. path .. "'")
+  _install(path, branch)
+end
+
+local function _install(path, branch)
   branch = branch or "master"
   if fs.exists(path) then
     print("module: module '" .. path .. "' found locally")
@@ -51,11 +79,20 @@ function install(path, branch)
   end
 end
 
+
+
 function require(path, branch)
+  print("module: requiring '" .. path .. "'")
+  _require(path, branch)
+end
+
+local function _require(path, branch)
   install(path, branch)
   if fs.exists(path) then
     os.loadAPI(path)
   end
 end
+
+
 
 source("brooswit", "ccc")
