@@ -75,7 +75,7 @@ function install(path, branch, user, repo)
   if user and repo then
     msg = msg .. " from '" .. user .. "/" .. repo .. "'"
   end
-  print("module:" .. msg)
+  print("module: " .. msg)
   _install(path, branch, user, repo)
 end
 
@@ -92,7 +92,7 @@ function update(path, branch, user, repo)
   if user and repo then
     msg = msg .. " from '" .. user .. "/" .. repo .. "'"
   end
-  print("module:" .. msg)
+  print("module: " .. msg)
   _update(path, branch, user, repo)
 end
 
@@ -111,8 +111,7 @@ function require(path, branch, user, repo)
   if user and repo then
     msg = msg .. " from '" .. user .. "/" .. repo .. "'"
   end
-  print("module:" .. msg)
-  print("module: requiring '" .. path .. "/" .. branch .. "'")
+  print("module: " .. msg)
   _require(path, branch, user, repo)
 end
 
