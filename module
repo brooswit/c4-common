@@ -11,7 +11,7 @@ end
 
 function source(newUser, newRepo)
   print("module: adding source '" .. newUser .. "/" .. newRepo .. "'")
-  _source(newUesr, newRepo)
+  _source(newUser, newRepo)
 end
 
 
