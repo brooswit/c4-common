@@ -68,7 +68,7 @@ end
 
 function install(path, branch)
   branch = branch or "master"
-  print("module: installing '" .. path .. "/" .. branch ..'")
+  print("module: installing '" .. path .. "/" .. branch .. "'")
   _install(path, branch)
 end
 
@@ -94,7 +94,7 @@ local function _require(path, branch)
 end
 
 function require(path, branch)
-  print("module: requiring '" .. path .. "/" .. branch ..'")
+  print("module: requiring '" .. path .. "/" .. branch .. "'")
   _require(path, branch)
 end
 
