@@ -21,7 +21,7 @@ end
 function install(path, branch)
   branch = branch or "master"
   if fs.exists(path) then
-    print("module: module found locally")
+    print("module: module '" .. path .. "' found locally")
   else
     fs.makeDir(path)
     fs.delete(path)
@@ -44,9 +44,9 @@ function install(path, branch)
       end
     end
     if found then
-      print("module: module found remotely")
+      print("module: module '" .. path .. "' found remotely")
     else
-      print("module: module not found")
+      print("module: module '" .. path .. "' not found")
     end
   end
 end
