@@ -59,7 +59,7 @@ local function _install(path, branch)
         local user = source.user
         local repo = source.repo
         
-        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch .. "/" .. path
+        local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch .. "/" .. path .. "?salt=" .. os.clock()
         local request = http.get(url)
         
         if request then
