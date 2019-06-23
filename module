@@ -43,12 +43,6 @@ local function _install(path, branch, user, repo)
       if not found then
         local user = source.user
         local repo = source.repo
-        
-        print(user)
-        print(repo)
-        print(branch)
-        print(path)
-
         local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch .. "/" .. path
         local request = http.get(url)
         
