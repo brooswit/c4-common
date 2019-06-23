@@ -30,7 +30,6 @@ end
 
 
 local function _install(path, branch)
-  branch = branch or "master"
   if fs.exists(path) then
     print("module: module '" .. path .. "' found locally")
   else
@@ -42,6 +41,11 @@ local function _install(path, branch)
         local user = source.user
         local repo = source.repo
         
+        print(user)
+        print(repo)
+        print(branch)
+        print(path)
+
         local url = "https://raw.githubusercontent.com/" .. user .. "/" .. repo .. "/" .. branch .. "/" .. path
         local request = http.get(url)
         
@@ -63,33 +67,34 @@ local function _install(path, branch)
 end
 
 function install(path, branch)
-  print("module: installing '" .. path .. "'")
+  branch = branch or "master"
+  print("module: installing '" .. path .. "/" .. branch ..'")
   _install(path, branch)
 end
 
 
 
 local function _update(path, branch)
-  remove(path)
-  install(path, branch)
+  _remove(path)
+  _install(path, branch)
 end
 
 function update(path, branch)
-  print("module: updating '" .. path .. "'")
+  print("module: updating '" .. path .. "/" .. branch ..'")
   _update(path, branch)
 end
 
 
 
 local function _require(path, branch)
-  install(path, branch)
+  _install(path, branch)
   if fs.exists(path) then
     os.loadAPI(path)
   end
 end
 
 function require(path, branch)
-  print("module: requiring '" .. path .. "'")
+  print("module: requiring '" .. path .. "/" .. branch ..'")
   _require(path, branch)
 end
 
