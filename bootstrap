@@ -1,0 +1,17 @@
+function update(path)
+  local url = "https://raw.githubusercontent.com/brooswit/ccc/master/" .. path
+  local request = http.get(url)
+  if request then
+    local response = request.readAll()
+    if fs.exists(path) then
+      fs.delete(path)
+    end
+    local file = fs.open(path, "w")
+    file.write(response)
+    file.close()
+  end
+end
+
+update("module")
+update("install")
+update("update")
