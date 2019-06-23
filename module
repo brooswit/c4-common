@@ -71,7 +71,11 @@ end
 
 function install(path, branch, user, repo)
   branch = branch or "master"
-  print("module: installing '" .. path .. "/" .. branch .. "'")
+  msg = "installing '" .. path .. "/" .. branch .. "'"
+  if user and repo then
+    msg = msg .. " from '" .. user .. "/" .. repo .. "'"
+  end
+  print("module:" .. msg)
   _install(path, branch, user, repo)
 end
 
@@ -84,7 +88,11 @@ end
 
 function update(path, branch, user, repo)
   branch = branch or "master"
-  print("module: updating '" .. path .. "/" .. branch .. "'")
+  msg = "updating '" .. path .. "/" .. branch .. "'"
+  if user and repo then
+    msg = msg .. " from '" .. user .. "/" .. repo .. "'"
+  end
+  print("module:" .. msg)
   _update(path, branch, user, repo)
 end
 
@@ -99,6 +107,11 @@ end
 
 function require(path, branch, user, repo)
   branch = branch or "master"
+  msg = "requiring '" .. path .. "/" .. branch .. "'"
+  if user and repo then
+    msg = msg .. " from '" .. user .. "/" .. repo .. "'"
+  end
+  print("module:" .. msg)
   print("module: requiring '" .. path .. "/" .. branch .. "'")
   _require(path, branch, user, repo)
 end
