@@ -2,7 +2,7 @@ local sources = {}
 
 
 
-local function _source
+local function _source()
   table.insert(sources, {
     user = newUser,
     repo = newRepo
