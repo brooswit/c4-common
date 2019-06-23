@@ -29,7 +29,10 @@ end
 
 
 
-local function _install(path, branch)
+local function _install(path, branch, user, repo)
+  if user and repo then
+    _source(user, repo)
+  end
   if fs.exists(path) then
     print("module: module '" .. path .. "' found locally")
   else
@@ -66,38 +69,38 @@ local function _install(path, branch)
   end
 end
 
-function install(path, branch)
+function install(path, branch, user, repo)
   branch = branch or "master"
   print("module: installing '" .. path .. "/" .. branch .. "'")
-  _install(path, branch)
+  _install(path, branch, user, repo)
 end
 
 
 
-local function _update(path, branch)
+local function _update(path, branch, user, repo)
   _remove(path)
-  _install(path, branch)
+  _install(path, branch, user, repo)
 end
 
-function update(path, branch)
+function update(path, branch, user, repo)
   branch = branch or "master"
   print("module: updating '" .. path .. "/" .. branch .. "'")
-  _update(path, branch)
+  _update(path, branch, user, repo)
 end
 
 
 
-local function _require(path, branch)
-  _install(path, branch)
+local function _require(path, branch, user, repo)
+  _install(path, branch, user, repo)
   if fs.exists(path) then
     os.loadAPI(path)
   end
 end
 
-function require(path, branch)
+function require(path, branch, user, repo)
   branch = branch or "master"
   print("module: requiring '" .. path .. "/" .. branch .. "'")
-  _require(path, branch)
+  _require(path, branch, user, repo)
 end
 
 
