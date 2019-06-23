@@ -16,18 +16,6 @@ end
 
 
 
-local function _update(path, branch)
-  remove(path)
-  install(path, branch)
-end
-
-function update(path, branch)
-  print("module: updating '" .. path .. "'")
-  _update(path, branch)
-end
-
-
-
 local function _remove(path)
   if fs.exists(path) then
     fs.delete(path)
@@ -77,6 +65,18 @@ end
 function install(path, branch)
   print("module: installing '" .. path .. "'")
   _install(path, branch)
+end
+
+
+
+local function _update(path, branch)
+  remove(path)
+  install(path, branch)
+end
+
+function update(path, branch)
+  print("module: updating '" .. path .. "'")
+  _update(path, branch)
 end
 
 
