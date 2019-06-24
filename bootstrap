@@ -1,10 +1,10 @@
 local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/module/")
 
 if request then
-  if fs.exists(path) then
-    fs.delete(path)
+  if fs.exists("module") then
+    fs.delete("module")
   end
-  local file = fs.open(path, "w")
+  local file = fs.open("module", "w")
   file.write(request.readAll())
   file.close()
 
