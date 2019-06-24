@@ -1,4 +1,4 @@
-local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/module/")
+local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/module")
 
 if request then
   if fs.exists("module") then
