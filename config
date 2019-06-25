@@ -3,7 +3,7 @@ local store = {}
 function load()
   local file
   if fs.exists("disk/config.json") then
-    file = fs.open("disk/config.json")
+    file = fs.open("disk/config.json", "r")
   elseif fs.exists("config.json") then
     local file = fs.open("config.json", "r")
   end
