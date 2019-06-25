@@ -1,11 +1,15 @@
 local store = {}
 
 function load()
-  if fs.exists("disk/config.json") or fs.exists("config.json")
-    local file = fs.open("disk/config.json", "r") or fs.open("config.json", "r")
+  local file
+  if fs.exists("disk/config.json") then
+    file = fs.open("disk/config.json")
+  elseif fs.exists("config.json") then
+    local file = fs.open("config.json", "r")
+  end
+  if file then
     serializedConfig = file.readAll()
     file.close()
-  
     store = textutils.unserialize(serializedConfig)
   end
 end
