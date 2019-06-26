@@ -1,4 +1,7 @@
 os.loadAPI("module")
+module.update('ld')
+module.update('config')
+
 module.require('ld')
 module.require('config')
 
