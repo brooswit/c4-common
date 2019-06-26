@@ -30,6 +30,7 @@ end
 
 function init(newClientSideID)
     clientSideID = newClientSideID
+    print("LD: init " .. newClientSideID)
     if(isInitialized == false) then
         isInitialized = true
         -- pollCoroutine = coroutine.create(function()
@@ -42,6 +43,7 @@ function init(newClientSideID)
 end
 
 function variation(flagKey, defaultValue)
+    print("LD: variation " .. flagKey)
     poll()
     flagDetails = allFlags[flagKey]
     value = defaultValue
@@ -65,6 +67,7 @@ function variation(flagKey, defaultValue)
 end
 
 function identify(newUser)
+    print("LD: identify " .. newUser)
     user = newUser
     isIdentifier = true
 end
