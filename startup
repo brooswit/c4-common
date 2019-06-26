@@ -1,0 +1,53 @@
+local args = { ... }
+local path = args[1]
+local branch = args[2]
+local user = args[3]
+local repo = args[4]
+
+if fs.exists("disk/startup") and fs.exists("disk/config.json") then
+    if fs.exists("config.json") then
+      fs.delete("config.json")
+    end
+
+    fs.copy("disk/config.json", "config.json")
+end
+
+function bootstrap()
+  local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/module")
+
+  if request then
+    if fs.exists("module") then
+      fs.delete("module")
+    end
+
+    local file = fs.open("module", "w")
+    file.write(request.readAll())
+    file.close()
+    
+    os.loadAPI("module")
+  end
+end
+
+local success = bootstrap()
+
+if success then
+  module.update("install")
+  module.update("update")
+  module.update("startup")
+  module.update("config")
+
+  os.loadAPI("config")
+  local main = args[1] or config.get("main")
+  if main then
+    local branch = args[2] or config.get("branch")
+    local user = args[3] or config.get("user")
+    local repo = args[4] or config.get("repo")
+    
+    config.set("main", main)
+    config.set("branch", branch)
+    config.set("user", user)
+    config.set("repo", repo)
+    
+    module.require(main, branch, user, repo)
+  end
+end
