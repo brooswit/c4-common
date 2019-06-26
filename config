@@ -1,3 +1,6 @@
+os.loadAPI("module")
+module.require("json")
+
 local store = {}
 
 function load()
@@ -10,7 +13,7 @@ function load()
   if file then
     serializedConfig = file.readAll()
     file.close()
-    store = textutils.unserialize(serializedConfig)
+    store = json.parse(serializedConfig)
   end
   save()
 end
@@ -22,7 +25,7 @@ end
 
 function save()
   local file = fs.open("config.json", "w")
-  file.write(textutils.serialize(store))
+  file.write(json.encode(store))
   file.close()
 end
 
