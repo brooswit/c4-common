@@ -12,9 +12,21 @@ function load()
     file.close()
     store = textutils.unserialize(serializedConfig)
   end
+  save()
 end
 
 function get(key)
   load()
   return store[key]
+end
+
+function save()
+  local file = fs.open("config.json", "w")
+  file.write(textutils.serialize(store))
+  file.close()
+end
+
+function set(key, value)
+  store[key] = value
+  save()
 end
