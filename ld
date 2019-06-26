@@ -9,6 +9,7 @@ local isInitialized = false
 local isIdentified = false
 
 local function poll()
+    print("LD: poll")
     if(not isIdentifier) then
         user = {
             key = "" .. (os.getComputerLabel() or os.getComputerID()),
