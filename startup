@@ -1,8 +1,4 @@
 local args = { ... }
-local path = args[1]
-local branch = args[2]
-local user = args[3]
-local repo = args[4]
 
 if fs.exists("disk/startup") and fs.exists("disk/config.json") then
     if fs.exists("config.json") then
