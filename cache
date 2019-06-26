@@ -1,8 +1,11 @@
+os.loadAPI("module")
+module.require("json")
+
 local store = {}
 
 function save()
   local file = fs.open("cache.json", "w")
-  file.write(textutils.serialize(store))
+  file.write(json.encode(store))
   file.close()
 end
 
@@ -18,7 +21,7 @@ function load()
   serializedCache = file.readAll()
   file.close()
   
-  store = textutils.unserialize(serializedCache)
+  store = json.parse(serializedCache)
 end
 
 function get(key)
