@@ -21,7 +21,7 @@ function load()
   serializedCache = file.readAll()
   file.close()
   
-  store = json.parse(serializedCache)
+  store = json.decode(serializedCache)
 end
 
 function get(key)
