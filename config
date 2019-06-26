@@ -14,8 +14,8 @@ function load()
     serializedConfig = file.readAll()
     file.close()
     store = json.decode(serializedConfig)
+    save()
   end
-  save()
 end
 
 function get(key)
