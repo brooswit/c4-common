@@ -16,6 +16,8 @@ function load()
   end
   if file then
     serializedConfig = file.readAll()
+    
+    print("CONFIG: " .. serializedConfig)
     file.close()
     store = json.decode(serializedConfig)
   end
