@@ -4,7 +4,7 @@ module.require("json")
 local store = {}
 
 function load(storeName)
-  if not store[storeName] then
+  if not stores[storeName] then
     local fileName = storeName .. ".json"
     local file
 
@@ -20,16 +20,16 @@ function load(storeName)
     if file then
       local serializedStore = file.readAll()
       file.close()
-      store[storeName] = json.decode(serializedConfig)
+      stores[storeName] = json.decode(serializedConfig)
     end
   end
 
-  return store[storeName]
+  return stores[storeName]
 end
 
 function save(storeName)
   local fileName = storeName .. ".json"
-  local data = store[storeName] or {}
+  local data = stores[storeName] or {}
   local serializedStore = json.encode(data)
 
   local file = fs.open(fileName "w")
@@ -37,4 +37,28 @@ function save(storeName)
   file.close()
 
   print("STORE(" .. storeName .. "): " .. fileName .. " saved.")
+end
+
+
+
+function get(storeName, dataKey) 
+  local value
+  load(storeName)
+  if store[storeName] then
+    if store[storeName][dataKey] then
+      value = store[storeName][dataKey]
+    end
+  end
+  return value
+end
+
+function set(storeName, dataKey, value)
+  load(storeName)
+  if not store[storeName] then
+    store[storeName] = {}
+  end
+  if not store[storeName][dataKey] then
+    store[storeName][dataKey] = value
+  end
+  save(storeName)
 end
