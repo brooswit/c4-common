@@ -1,17 +1,24 @@
 local args = { ... }
 
+print("STARTUP: bootstrapping...")
 if fs.exists("disk/startup") and fs.exists("disk/config.json") then
+  print("-| STARTUP: Disk exists")
   if fs.exists("config.json") then
+    print("-| STARTUP: deleting local config.json")
     fs.delete("config.json")
   end
 
+  print("-| STARTUP: copying disk/config.json -> config.json")
   fs.copy("disk/config.json", "config.json")
 end
 
 local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/module")
 
-if request then
+if not request then
+    print("-| STARTUP: unable to connect to source")
+elseif request then
   if fs.exists("module") then
+    print("-| STARTUP: deleting local module")
     fs.delete("module")
   end
 
@@ -20,15 +27,20 @@ if request then
   file.close()
 
   os.loadAPI("module")
+  print("-| STARTUP: installed and loaded module")
 
   module.update("install")
   module.update("update")
   module.update("startup")
   module.update("config")
+  print("STARTUP: ...bootstrap complete")
 
   os.loadAPI("config")
   local main = args[1] or config.get("main")
-  if main then
+  if not main then
+    print("STARTUP: no main provided")
+  elseif main then
+    print("STARTUP: starting " .. main)
     local branch = args[2] or config.get("branch")
     local user = args[3] or config.get("user")
     local repo = args[4] or config.get("repo")
