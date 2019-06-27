@@ -10,7 +10,7 @@ function load()
     file = fs.open("disk/config.json", "r")
   elseif fs.exists("config.json") then
     print("CONFIG: found config.json locally")
-    local file = fs.open("config.json", "r")
+    file = fs.open("config.json", "r")
   else
     print("CONFIG: config.json not found")
   end
