@@ -6,9 +6,13 @@ local store = {}
 function load()
   local file
   if fs.exists("disk/config.json") then
+    print("CONFIG: found config.json on disk")
     file = fs.open("disk/config.json", "r")
   elseif fs.exists("config.json") then
+    print("CONFIG: found config.json locally")
     local file = fs.open("config.json", "r")
+  else
+    print("CONFIG: config.json not found")
   end
   if file then
     serializedConfig = file.readAll()
