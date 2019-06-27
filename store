@@ -1,0 +1,40 @@
+os.loadAPI("module")
+module.require("json")
+
+local store = {}
+
+function load(storeName)
+  if not store[storeName] then
+    local fileName = storeName .. ".json"
+    local file
+
+    if fs.exists("disk/" .. fileName) then
+      print("STORE(" .. storeName .. "): found " .. fileName .. " on disk.")
+      file = fs.open("disk/" .. fileName, "r")
+    elseif fs.exists(fileName) then
+      print("STORE(" .. storeName .. "): found " .. fileName .. " locally.")
+      file = fs.open(fileName, "r")
+    else
+      print("STORE(" .. storeName .. "): " .. fileName .. " not found.")
+    end
+    if file then
+      local serializedStore = file.readAll()
+      file.close()
+      store[storeName] = json.decode(serializedConfig)
+    end
+  end
+
+  return store[storeName]
+end
+
+function save(storeName)
+  local fileName = storeName .. ".json"
+  local data = store[storeName] or {}
+  local serializedStore = json.encode(data)
+
+  local file = fs.open(fileName "w")
+  file.write(serializedStore)
+  file.close()
+
+  print("STORE(" .. storeName .. "): " .. fileName .. " saved.")
+end
