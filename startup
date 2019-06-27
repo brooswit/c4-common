@@ -1,7 +1,7 @@
 local args = { ... }
 
 print("STARTUP: bootstrapping...")
-if fs.exists("disk/startup") and fs.exists("disk/config.json") then
+if fs.exists("disk/config.json") then
   print("-| STARTUP: Disk exists")
   if fs.exists("config.json") then
     print("-| STARTUP: deleting local config.json")
