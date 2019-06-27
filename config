@@ -2,24 +2,28 @@ os.loadAPI("module")
 module.require("json")
 
 local store = {}
+local loaded = false
 
 function load()
-  local file
-  if fs.exists("disk/config.json") then
-    -- print("CONFIG: found config.json on disk")
-    file = fs.open("disk/config.json", "r")
-  elseif fs.exists("config.json") then
-    -- print("CONFIG: found config.json locally")
-    file = fs.open("config.json", "r")
-  else
-    -- print("CONFIG: config.json not found")
-  end
-  if file then
-    serializedConfig = file.readAll()
-    
-    -- print("CONFIG: " .. serializedConfig)
-    file.close()
-    store = json.decode(serializedConfig)
+  if not loaded then
+    local file
+    if fs.exists("disk/config.json") then
+      print("CONFIG: found config.json on disk")
+      file = fs.open("disk/config.json", "r")
+    elseif fs.exists("config.json") then
+      print("CONFIG: found config.json locally")
+      file = fs.open("config.json", "r")
+    else
+      print("CONFIG: config.json not found")
+    end
+    if file then
+      serializedConfig = file.readAll()
+
+      print("CONFIG: " .. serializedConfig)
+      file.close()
+      store = json.decode(serializedConfig)
+    end
+    loaded = true
   end
 end
 
@@ -32,6 +36,7 @@ function save()
   local file = fs.open("config.json", "w")
   file.write(json.encode(store))
   file.close()
+  print("CONFIG: config.json saved")
 end
 
 function set(key, value)
