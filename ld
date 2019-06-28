@@ -30,8 +30,12 @@ local function poll()
     userBase64 = base64.encode(userString)
     url = "https://app.launchdarkly.com/sdk/evalx/" .. clientSideID .. "/users/" .. userBase64
     request = http.get(url)
-    response = request.readAll()
-    allFlags = json.decode(response)
+    if not request then
+      print("LD: request failed - " .. url)
+    else
+      local response = request.readAll()
+      allFlags = json.decode(response)
+    end
 end
 
 function init(newClientSideID)
