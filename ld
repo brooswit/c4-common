@@ -22,6 +22,7 @@ local function poll()
     end
     user.custom = user.custom or {}
     user.custom.time = os.time()
+    user.custom.hour = math.floor(os.time() / 1000)
     user.custom.day = os.day()
     for key,side in pairs(redstone.getSides()) do
         user.custom["redstone_" .. side] = redstone.getInput(side)
