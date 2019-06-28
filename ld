@@ -5,7 +5,7 @@ module.require("base64")
 
 local pollInterval = 10000
 
-local user
+local user = {}
 local allFlags
 local clientSideID
 local isInitialized = false
