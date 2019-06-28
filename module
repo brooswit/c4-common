@@ -1,3 +1,4 @@
+print("MODULE: V1")
 local sources = {}
 
 
@@ -29,12 +30,12 @@ end
 
 
 
-local function _install(path, branch, user, repo)
+local function _install(path, branch, user, repo, action)
   if user and repo then
     _source(user, repo)
   end
   if fs.exists(path) then
-    print("module: module '" .. path .. "' found locally")
+    print("MODULE: module '" .. path .. "' " .. action .. " locally")
   else
     fs.makeDir(path)
     fs.delete(path)
@@ -56,9 +57,9 @@ local function _install(path, branch, user, repo)
       end
     end
     if found then
-      print("module: module '" .. path .. "' found remotely")
+      print("MODULE: module '" .. path .. "' " .. action .. " from remote")
     else
-      print("module: module '" .. path .. "' not found")
+      print("MODULE: could not " .. action .. " module '" .. path .. "')
     end
   end
 end
@@ -69,15 +70,15 @@ function install(path, branch, user, repo)
   if user and repo then
     msg = msg .. " from '" .. user .. "/" .. repo .. "'"
   end
-  print("module: " .. msg)
-  _install(path, branch, user, repo)
+  print("MODULE: " .. msg)
+  _install(path, branch, user, repo, "install")
 end
 
 
 
 local function _update(path, branch, user, repo)
   _remove(path)
-  _install(path, branch, user, repo)
+  _install(path, branch, user, repo, "update")
 end
 
 function update(path, branch, user, repo)
@@ -86,14 +87,14 @@ function update(path, branch, user, repo)
   if user and repo then
     msg = msg .. " from '" .. user .. "/" .. repo .. "'"
   end
-  print("module: " .. msg)
+  print("MODULE: " .. msg)
   _update(path, branch, user, repo)
 end
 
 
 
 local function _require(path, branch, user, repo)
-  _install(path, branch, user, repo)
+  _install(path, branch, user, repo, "require")
   if fs.exists(path) then
     os.loadAPI(path)
   end
@@ -105,7 +106,7 @@ function require(path, branch, user, repo)
   if user and repo then
     msg = msg .. " from '" .. user .. "/" .. repo .. "'"
   end
-  print("module: " .. msg)
+  print("MODULE: " .. msg)
   _require(path, branch, user, repo)
 end
 
