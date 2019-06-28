@@ -1,4 +1,4 @@
-print("LD: V2")
+print("LD: V3")
 os.loadAPI("module")
 module.require("json")
 module.require("base64")
@@ -16,8 +16,7 @@ local function poll()
     if lastPoll + pollInterval > os.clock() then
         return
     end
-    user.key |= os.getComputerLabel()
-    user.key |= os.getComputerID())
+    user.key = user.key or os.getComputerLabel() or os.getComputerID())
     user.custom = user.custom or {}
     user.custom.time = os.time()*1000
     user.custom.hour = math.floor(os.time())
