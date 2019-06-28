@@ -1,4 +1,4 @@
-print("LD: V6")
+print("LD: V7")
 os.loadAPI("module")
 module.require("json")
 module.require("base64")
