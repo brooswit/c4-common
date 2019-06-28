@@ -1,9 +1,9 @@
-print("LD: V11")
+print("LD: V12")
 os.loadAPI("module")
 module.require("json")
 module.require("base64")
 
-local pollInterval = 10000
+local pollInterval = 5
 
 local user = {}
 local allFlags
