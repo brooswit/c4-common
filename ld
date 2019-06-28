@@ -16,17 +16,14 @@ local function poll()
     if lastPoll + pollInterval > os.clock() then
         return
     end
-    if(not isIdentifier) then
-        user = {
-            key = "" .. (os.getComputerLabel() or os.getComputerID()),
-        }
-    end
+    user.key |= os.getComputerLabel()
+    user.key |= os.getComputerID())
     user.custom = user.custom or {}
     user.custom.time = os.time()*1000
     user.custom.hour = math.floor(os.time())
-    user.custom.hourKey = math.floor(os.time() .. key)
+    user.custom.hourKey = math.floor(os.time() .. user.key)
     user.custom.day = os.day()
-    user.custom.dayKey = math.floor(os.day() .. key)
+    user.custom.dayKey = math.floor(os.day() .. user.key)
     for key,side in pairs(redstone.getSides()) do
         user.custom["redstone_" .. side] = redstone.getInput(side)
     end
