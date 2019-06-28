@@ -32,6 +32,7 @@ local function poll()
     request = http.get(url)
     if not request then
       print("LD: request failed - " .. url)
+      print(userString)
     else
       local response = request.readAll()
       allFlags = json.decode(response)
