@@ -11,7 +11,7 @@ local function _source(newUser, newRepo)
 end
 
 function source(newUser, newRepo)
-  print("module: adding source '" .. newUser .. "/" .. newRepo .. "'")
+  print("MODULE: adding source '" .. newUser .. "/" .. newRepo .. "'")
   _source(newUser, newRepo)
 end
 
@@ -24,7 +24,7 @@ local function _remove(path)
 end
 
 function remove(path)
-  print("module: removing '" .. path .. "'")
+  print("MODULE: removing '" .. path .. "'")
   _remove(path)
 end
 
@@ -66,11 +66,6 @@ end
 
 function install(path, branch, user, repo)
   branch = branch or "master"
-  msg = "installing '" .. path .. "/" .. branch .. "'"
-  if user and repo then
-    msg = msg .. " from '" .. user .. "/" .. repo .. "'"
-  end
-  print("MODULE: " .. msg)
   _install(path, branch, user, repo, "install")
 end
 
@@ -83,11 +78,6 @@ end
 
 function update(path, branch, user, repo)
   branch = branch or "master"
-  msg = "updating '" .. path .. "/" .. branch .. "'"
-  if user and repo then
-    msg = msg .. " from '" .. user .. "/" .. repo .. "'"
-  end
-  print("MODULE: " .. msg)
   _update(path, branch, user, repo)
 end
 
@@ -102,11 +92,6 @@ end
 
 function require(path, branch, user, repo)
   branch = branch or "master"
-  msg = "requiring '" .. path .. "/" .. branch .. "'"
-  if user and repo then
-    msg = msg .. " from '" .. user .. "/" .. repo .. "'"
-  end
-  print("MODULE: " .. msg)
   _require(path, branch, user, repo)
 end
 
