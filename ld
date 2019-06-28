@@ -1,4 +1,4 @@
-print("LD: build #1")
+print("LD: V2")
 os.loadAPI("module")
 module.require("json")
 module.require("base64")
