@@ -1,4 +1,4 @@
-print("MODULE: V1")
+print("MODULE: V2")
 local sources = {}
 
 
@@ -59,7 +59,7 @@ local function _install(path, branch, user, repo, action)
     if found then
       print("MODULE: module '" .. path .. "' " .. action .. " from remote")
     else
-      print("MODULE: could not " .. action .. " module '" .. path .. "')
+      print("MODULE: could not " .. action .. " module '" .. path .. "'")
     end
   end
 end
