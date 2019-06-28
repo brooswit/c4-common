@@ -1,4 +1,4 @@
-print("LD: V12")
+print("LD: V13")
 os.loadAPI("module")
 module.require("json")
 module.require("base64")
@@ -9,7 +9,6 @@ local user = {}
 local allFlags
 local clientSideID
 local isInitialized = false
-local isIdentified = false
 local lastPoll = 0 - pollInterval
 
 local function poll()
@@ -38,7 +37,6 @@ local function poll()
     local response = request.readAll()
     allFlags = json.decode(response)
   end
-  print(userString)
 end
 
 function init(newClientSideID)
