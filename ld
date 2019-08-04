@@ -4,7 +4,7 @@ module.require("json")
 module.require("base64")
 module.require("config")
 
-local pollInterval = 5
+local pollInterval = 0.1
 
 local user = {}
 local allFlags
