@@ -2,6 +2,7 @@ print("LD: V13")
 os.loadAPI("module")
 module.require("json")
 module.require("base64")
+module.require("config")
 
 local pollInterval = 5
 
@@ -17,7 +18,7 @@ local function poll()
   end
   lastPoll = os.clock()
 
-  user.key = "" .. (user.key or os.getComputerLabel() or os.getComputerID())
+  user.key = "" .. (user.key or os.getComputerID())
   user.custom = user.custom or {}
   user.custom.time = os.time()*1000
   user.custom.hour = math.floor(os.time())
@@ -40,7 +41,7 @@ local function poll()
 end
 
 function init(newClientSideID)
-  clientSideID = newClientSideID
+  clientSideID = newClientSideID || config.get("ld-client-side-id")
   if(isInitialized == false) then
     isInitialized = true
     -- pollCoroutine = coroutine.create(function()
