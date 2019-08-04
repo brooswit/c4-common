@@ -1,14 +1,10 @@
 os.loadAPI("module")
 
 module.update('ld')
-module.update('config')
-
 module.require('ld')
-module.require('config')
 
 while true do
-  ldClientSideId = config.get("ld-clientside-id")
-  ld.init(ldClientSideId)
+  ld.init()
 
   ldFlagKey = os.getComputerLabel()
   value = ld.variation(ldFlagKey, false)
