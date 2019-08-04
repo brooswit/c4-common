@@ -1,4 +1,5 @@
 os.loadAPI("module")
+
 module.update('ld')
 module.update('config')
 
@@ -6,10 +7,10 @@ module.require('ld')
 module.require('config')
 
 while true do
-  ldClientSideId = config.get("ld-client-side-id")
+  ldClientSideId = config.get("ld-clientside-id")
   ld.init(ldClientSideId)
 
-  ldFlagKey = config.get("ld-flag-key")
+  ldFlagKey = os.getComputerLabel()
   value = ld.variation(ldFlagKey, false)
 
   for key,side in pairs(redstone.getSides()) do
