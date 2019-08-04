@@ -41,7 +41,7 @@ local function poll()
 end
 
 function init(newClientSideID)
-  clientSideID = newClientSideID || config.get("ld-clientside-id")
+  clientSideID = newClientSideID or config.get("ld-clientside-id")
   if(isInitialized == false) then
     isInitialized = true
     -- pollCoroutine = coroutine.create(function()
