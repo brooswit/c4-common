@@ -1,3 +1,10 @@
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- Begin JSON stuff
+-- https://github.com/rxi/json.lua
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
 --
 -- json.lua
 --
@@ -373,24 +380,188 @@ local char_func_map = {
 }
 
 
-parse = function(str, idx)
-  local chr = str:sub(idx, idx)
-  local f = char_func_map[chr]
-  if f then
-    return f(str, idx)
-  end
-  decode_error(str, idx, "unexpected character '" .. chr .. "'")
+-- local parse = function(str, idx)
+--   local chr = str:sub(idx, idx)
+--   local f = char_func_map[chr]
+--   if f then
+--     return f(str, idx)
+--   end
+--   decode_error(str, idx, "unexpected character '" .. chr .. "'")
+-- end
+
+
+-- function decode(str)
+--   if type(str) ~= "string" then
+--     error("expected argument of type string, got " .. type(str))
+--   end
+--   local res, idx = parse(str, next_char(str, 1, space_chars, true))
+--   idx = next_char(str, idx, space_chars, true)
+--   if idx <= #str then
+--     decode_error(str, idx, "trailing garbage")
+--   end
+--   return res
+-- end
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- End JSON stuff
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- Begin IO stuff
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+local function decodeJSON(str)
+    if type(str) ~= "string" then
+      error("expected argument of type string, got " .. type(str))
+    end
+    local res, idx = parse(str, next_char(str, 1, space_chars, true))
+    idx = next_char(str, idx, space_chars, true)
+    if idx <= #str then
+      decode_error(str, idx, "trailing garbage")
+    end
+    return res
 end
 
 
-function decode(str)
-  if type(str) ~= "string" then
-    error("expected argument of type string, got " .. type(str))
-  end
-  local res, idx = parse(str, next_char(str, 1, space_chars, true))
-  idx = next_char(str, idx, space_chars, true)
-  if idx <= #str then
-    decode_error(str, idx, "trailing garbage")
-  end
-  return res
+local function copy(obj, seen)
+    if type(obj) ~= 'table' then return obj end
+    if seen and seen[obj] then return seen[obj] end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(obj))
+    s[obj] = res
+    for k, v in pairs(obj) do res[copy(k, s)] = copy(v, s) end
+    return res
 end
+
+
+local function require(path)
+    os.loadAPI(localPath .. filename)
+end
+
+
+local function loadString(path)
+    local file = fs.open("cache.json", "r")
+    local contents = file.readAll()
+    file.close()
+    return contents
+end
+
+local function loadJSON(path)
+    return decodeJSON(loadString(path))
+end
+
+local function saveString(path, contents)
+    local file = fs.open(path, "w")
+    file.write(contents)
+    file.close()
+end
+
+
+local function fetchString(path, filename, filetype="lua")
+    local request = http.get(path .. filename .. "." .. filetype)
+    return request.readAll()
+end
+
+local function fetchJSON(path, filename, filetype)
+    decodeJSON(fetchString(path, filename, filetype))
+end
+
+local function fetchSave(path, filename, filetype="lua")
+    saveString(fetchString(path, filename, filetype))
+end
+
+local function fetchRequire(path, filename, filetype)
+    fetchSave(path, filename, filetype)
+    require(localPath .. filename)
+end
+
+
+local function makeGitHubURLPath(account, repo, branch, path="")
+    return "https://raw.githubusercontent.com/" .. account .. "/" .. repo "/" .. branch .. "/" .. path
+end
+
+local function fetchGitHubString (account, repo, branch, path, filename, filetype)
+    return fetchString(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+end
+
+local function fetchGitHubJSON   (account, repo, branch, path, filename, filetype)
+    return fetchJSON(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+end
+
+local function fetchGitHubSave   (account, repo, branch, path, filename, filetype)
+    fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+end
+
+local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
+    fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+end
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- End IO stuff
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- Begin Main
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+local depCache = {}
+local function checkDependency(pathList, cache=depCache)
+    copiedPathList = copy(pathList)
+    head = table.remove(copiedPathList, 1)
+    if copiedPathList.getn == 0 then
+        valid = cache[head] == nil
+        cache[head] = cache[head] || {}
+        return valid
+    else 
+        cache[head] = cache[head] || {}
+        return checkDependency(copiedPathList, cache[head])
+    end
+end
+
+local function fetchDependency(dependency)
+    if dependency.source == "github" then
+        local dependencyExists = !checkDependency([dependency.filename, dependency.filetype])
+        if !dependencyExists then
+            if config.filetype == "json" then
+                fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
+            else
+                fetchGitHubLoad(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
+            end
+        end
+    end
+end
+
+local function fetchDependencies(config)
+    for dependency in config.dependencies do
+        fetchDependency(dependency)
+    end
+end
+
+local function startup()
+    local ccconfig = loadJSON("ccconfig.json")
+    fetchDependencies(ccconfig)
+    fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
+    if ccconfig.startup != nil then
+        os.loadAPI(ccconfig.startup)
+    end
+end
+
+startup()
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- End Main
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------

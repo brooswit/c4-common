@@ -1,0 +1,14 @@
+{
+    "startup": "main.lua",
+    "dependencies": [
+        {
+            "source":  "github",
+            "account": "brooswit",
+            "repo":    "ccc",
+            "branch":  "master",
+            "path":    "examples",
+            "filename": "main",
+            "filetype": "lua"
+        }
+    ]
+}

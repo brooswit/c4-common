@@ -1,0 +1,5 @@
+local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/ccc.lua")
+local file = fs.open("ccc.lua", "w")
+file.write(request.readAll())
+file.close()
+os.loadAPI("ccc.lua")
