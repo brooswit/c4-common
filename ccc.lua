@@ -416,6 +416,11 @@ local char_func_map = {
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
+local function cccPrint(msg)
+    print("[ccc] " .. msg)
+end
+
+
 local function encodeJSON(val)
     return ( stringify(val) )
 end
@@ -598,10 +603,6 @@ local function install()
         cccPrint("Starting...")
         require(ccconfig.startup)
     end
-end
-
-local function cccPrint(msg)
-    print("[ccc] " .. msg)
 end
 
 cccPrint("Thanks for using CCC!")
