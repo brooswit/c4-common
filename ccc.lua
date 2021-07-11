@@ -489,7 +489,7 @@ local function fetchString(path, filename, filetype)
     if not filetype then
         filetype = "lua"
     end
-    local url = path .. "/" .. filename .. "/" .. filetype
+    local url = path .. "/" .. filename .. "." .. filetype
     cccPrint("fetching resource: " .. url)
     local request = http.get(url)
     if request == nil then
@@ -517,9 +517,15 @@ local function makeGitHubURLPath(account, repo, branch, path)
         path = ""
     end
 
-    cccPrint("building path to github resource: " .. account .. "/" .. repo .. "/" .. branch .. "/" .. path)
+    local url = "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch
 
-    return "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch .. "/" .. path
+    if path ~= nil then
+        url = url .. "/" .. path
+    end
+
+    cccPrint("building path to github resource: " .. url)
+
+    return url
 end
 
 local function fetchGitHubString (account, repo, branch, path, filename, filetype)
