@@ -492,10 +492,8 @@ local function makeGitHubURLPath(account, repo, branch, path)
     if path == nil then
         path = ""
     end
-    if repo == nil then
-        return
-    end
-    return "https://raw.githubusercontent.com/" .. account .. "/" .. repo "/" .. branch .. "/" .. path
+
+    return "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch .. "/" .. path
 end
 
 local function fetchGitHubString (account, repo, branch, path, filename, filetype)
