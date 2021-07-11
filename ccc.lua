@@ -416,6 +416,10 @@ local char_func_map = {
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
+local function encodeJSON(val)
+    return ( stringify(val) )
+end
+
 local function decodeJSON(str)
     if type(str) ~= "string" then
         return nil
@@ -445,6 +449,17 @@ local function require(path)
 end
 
 
+local function saveString(path, contents)
+    local file = fs.open(path, "w")
+    file.write(contents)
+    file.close()
+end
+
+local function saveJSON(path, json)
+    return saveString(path, encodeJSON(json))
+end
+
+
 local function loadString(path, default)
     local file = fs.open("cache.json", "r")
     if file == nil then
@@ -457,12 +472,6 @@ end
 
 local function loadJSON(path)
     return decodeJSON(loadString(path))
-end
-
-local function saveString(path, contents)
-    local file = fs.open(path, "w")
-    file.write(contents)
-    file.close()
 end
 
 
@@ -568,6 +577,10 @@ end
 
 local function startup()
     local ccconfig = loadJSON("ccconfig.json")
+    if ccconfig == nil then
+        ccconfig = {}
+        saveJSON("ccconfig.json", ccconfig)
+    end
     fetchDependencies(ccconfig)
     fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
     if ccconfig.startup ~= nil then
