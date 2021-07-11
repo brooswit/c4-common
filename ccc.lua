@@ -523,7 +523,10 @@ end
 -------------------------------------------------------------------------------
 
 local depCache = {}
-local function checkDependency(pathList, cache=depCache)
+local function checkDependency(pathList, cache)
+    if cache == nil then
+        cache = depCache
+    end
     copiedPathList = copy(pathList)
     head = table.remove(copiedPathList, 1)
     if copiedPathList.getn == 0 then
