@@ -598,7 +598,7 @@ local function install()
     end
 end
 
-local cccPrint(msg)
+local function cccPrint(msg)
     print("[ccc] " .. msg)
 end
 
