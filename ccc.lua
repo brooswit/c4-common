@@ -507,11 +507,11 @@ end
 
 
 local function makeGitHubURLPath(account, repo, branch, path)
-    cccPrint("building path to github resource: " .. account .. "/" .. repo .. "/" .. branch .. "/" .. path)
-
     if path == nil then
         path = ""
     end
+
+    cccPrint("building path to github resource: " .. account .. "/" .. repo .. "/" .. branch .. "/" .. path)
 
     return "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch .. "/" .. path
 end
