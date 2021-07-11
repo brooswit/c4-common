@@ -577,20 +577,30 @@ local function fetchDependencies(config)
     end
 end
 
-local function startup()
+local function install()
+    cccPrint("Installing...")
     local ccconfig = loadJSON("ccconfig.json")
     if ccconfig == nil then
+        cccPrint("No config! Creating a new one.")
         ccconfig = {}
         saveJSON("ccconfig.json", ccconfig)
     end
     fetchDependencies(ccconfig)
     fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
+        cccPrint("Done installing!")
     if ccconfig.startup ~= nil then
+        cccPrint("Starting...")
         os.loadAPI(ccconfig.startup)
     end
 end
 
-startup()
+local cccPrint(msg)
+    print "[ccc] " ... msg
+end
+
+cccprint("Thanks for using CCC!")
+
+install()
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
