@@ -602,7 +602,7 @@ local function cccPrint(msg)
     print("[ccc] " .. msg)
 end
 
-cccprint("Thanks for using CCC!")
+cccPrint("Thanks for using CCC!")
 
 install()
 
