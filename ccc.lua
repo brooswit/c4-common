@@ -445,6 +445,8 @@ end
 
 
 local function require(path)
+    cccPrint("Requiring " .. path)
+
     os.loadAPI(localPath .. filename)
 end
 
@@ -594,7 +596,7 @@ local function install()
         cccPrint("Done installing!")
     if ccconfig.startup ~= nil then
         cccPrint("Starting...")
-        os.loadAPI(ccconfig.startup)
+        require(ccconfig.startup)
     end
 end
 
