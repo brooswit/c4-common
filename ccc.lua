@@ -570,8 +570,10 @@ local function fetchDependencies(config)
     if config == nil then
         return
     end
-    for dependency in config.dependencies do
-        fetchDependency(dependency)
+    if config.dependencies ~= nil then
+        for dependency in config.dependencies do
+            fetchDependency(dependency)
+        end
     end
 end
 
