@@ -464,7 +464,7 @@ end
 
 
 local function fetchString(path, filename, filetype)
-    if !filetype then
+    if not filetype then
         filetype = "lua"
     end
     local request = http.get(path .. filename .. "." .. filetype)
@@ -486,7 +486,7 @@ end
 
 
 local function makeGitHubURLPath(account, repo, branch, path)
-    if !path then
+    if not path then
         path = ""
     end
     return "https://raw.githubusercontent.com/" .. account .. "/" .. repo "/" .. branch .. "/" .. path
@@ -538,8 +538,8 @@ end
 
 local function fetchDependency(dependency)
     if dependency.source == "github" then
-        local dependencyExists = !checkDependency([dependency.filename, dependency.filetype])
-        if !dependencyExists then
+        local dependencyExists = not checkDependency([dependency.filename, dependency.filetype])
+        if not dependencyExists then
             if config.filetype == "json" then
                 fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
             else
