@@ -489,6 +489,9 @@ local function fetchString(path, filename, filetype)
     local url = path .. "/" .. filename .. "/" .. filetype
     cccPrint("fetching resource: " .. url)
     local request = http.get(url)
+    if request == nil then
+        return nil
+    end
     return request.readAll()
 end
 
