@@ -445,8 +445,11 @@ local function require(path)
 end
 
 
-local function loadString(path)
+local function loadString(path, default)
     local file = fs.open("cache.json", "r")
+    if file == nil then
+        return default
+    end
     local contents = file.readAll()
     file.close()
     return contents
