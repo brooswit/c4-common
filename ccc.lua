@@ -599,7 +599,7 @@ local function install()
 end
 
 local cccPrint(msg)
-    print("[ccc] " ... msg)
+    print("[ccc] " .. msg)
 end
 
 cccprint("Thanks for using CCC!")
