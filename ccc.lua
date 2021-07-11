@@ -563,7 +563,7 @@ local function startup()
     local ccconfig = loadJSON("ccconfig.json")
     fetchDependencies(ccconfig)
     fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
-    if ccconfig.startup != nil then
+    if ccconfig.startup ~= nil then
         os.loadAPI(ccconfig.startup)
     end
 end
