@@ -542,7 +542,7 @@ end
 
 local function fetchDependency(dependency)
     if dependency.source == "github" then
-        local dependencyExists = not checkDependency([dependency.filename, dependency.filetype])
+        local dependencyExists = not checkDependency({dependency.filename, dependency.filetype})
         if not dependencyExists then
             if config.filetype == "json" then
                 fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
