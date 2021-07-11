@@ -489,8 +489,11 @@ end
 
 
 local function makeGitHubURLPath(account, repo, branch, path)
-    if not path then
+    if path == nil then
         path = ""
+    end
+    if repo == nil then
+        return
     end
     return "https://raw.githubusercontent.com/" .. account .. "/" .. repo "/" .. branch .. "/" .. path
 end
