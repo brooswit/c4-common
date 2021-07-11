@@ -527,16 +527,15 @@ local function checkDependency(pathList, cache)
     if cache == nil then
         cache = depCache
     end
-    copiedPathList = copy(pathList)
-    head = table.remove(copiedPathList, 1)
+    local copiedPathList = copy(pathList)
+    local head = table.remove(copiedPathList, 1)
+    local valid = cache[head] == nil
+    if not valid then
+        cache[head] = {}
+    end
     if copiedPathList.getn == 0 then
-        valid = cache[head] == nil
-        if not valid then
-            cache[head] = {}
-        end
         return valid
-    else 
-        cache[head] = cache[head] || {}
+    else
         return checkDependency(copiedPathList, cache[head])
     end
 end
