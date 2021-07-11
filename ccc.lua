@@ -479,7 +479,9 @@ local function fetchString(path, filename, filetype)
     if not filetype then
         filetype = "lua"
     end
-    local request = http.get(path .. filename .. "." .. filetype)
+    local url = account .. "/" .. repo .. "/" .. branch .. "/" .. path
+    cccPrint("fetching resource: " .. url)
+    local request = http.get(url)
     return request.readAll()
 end
 
@@ -498,6 +500,8 @@ end
 
 
 local function makeGitHubURLPath(account, repo, branch, path)
+    cccPrint("building path to github resource: " .. account .. "/" .. repo .. "/" .. branch .. "/" .. path)
+
     if path == nil then
         path = ""
     end
@@ -595,7 +599,7 @@ local function install()
 end
 
 local cccPrint(msg)
-    print "[ccc] " ... msg
+    print("[ccc] " ... msg)
 end
 
 cccprint("Thanks for using CCC!")
