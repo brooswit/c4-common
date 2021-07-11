@@ -486,7 +486,7 @@ local function fetchString(path, filename, filetype)
     if not filetype then
         filetype = "lua"
     end
-    local url = account .. "/" .. repo .. "/" .. branch .. "/" .. path
+    local url = path .. "/" .. filename .. "/" .. filetype
     cccPrint("fetching resource: " .. url)
     local request = http.get(url)
     return request.readAll()
