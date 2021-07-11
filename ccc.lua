@@ -557,6 +557,9 @@ local function fetchDependency(dependency)
 end
 
 local function fetchDependencies(config)
+    if config == nil then
+        return
+    end
     for dependency in config.dependencies do
         fetchDependency(dependency)
     end
