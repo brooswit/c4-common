@@ -418,7 +418,7 @@ local char_func_map = {
 
 local function decodeJSON(str)
     if type(str) ~= "string" then
-      error("expected argument of type string, got " .. type(str))
+        return nil
     end
     local res, idx = parse(str, next_char(str, 1, space_chars, true))
     idx = next_char(str, idx, space_chars, true)
