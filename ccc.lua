@@ -463,7 +463,10 @@ local function saveString(path, contents)
 end
 
 
-local function fetchString(path, filename, filetype="lua")
+local function fetchString(path, filename, filetype)
+    if !filetype then
+        filetype = "lua"
+    end
     local request = http.get(path .. filename .. "." .. filetype)
     return request.readAll()
 end
@@ -472,7 +475,7 @@ local function fetchJSON(path, filename, filetype)
     decodeJSON(fetchString(path, filename, filetype))
 end
 
-local function fetchSave(path, filename, filetype="lua")
+local function fetchSave(path, filename, filetype)
     saveString(fetchString(path, filename, filetype))
 end
 
@@ -482,7 +485,10 @@ local function fetchRequire(path, filename, filetype)
 end
 
 
-local function makeGitHubURLPath(account, repo, branch, path="")
+local function makeGitHubURLPath(account, repo, branch, path)
+    if !path then
+        path = ""
+    end
     return "https://raw.githubusercontent.com/" .. account .. "/" .. repo "/" .. branch .. "/" .. path
 end
 
