@@ -457,6 +457,9 @@ end
 
 
 local function saveString(path, contents)
+    if path == nil then
+        return
+    end
     local file = fs.open(path, "w")
     file.write(contents)
     file.close()
