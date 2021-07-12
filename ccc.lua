@@ -471,8 +471,10 @@ end
 
 
 local function loadString(path, default)
+    cccPrint("loading: " .. path)
     local file = fs.open("cache.json", "r")
     if file == nil then
+        cccPrint("loaded nil")
         return default
     end
     local contents = file.readAll()
@@ -481,7 +483,8 @@ local function loadString(path, default)
 end
 
 local function loadJSON(path)
-    return decodeJSON(loadString(path))
+        cccPrint("loading JSON")
+        return decodeJSON(loadString(path))
 end
 
 
@@ -493,6 +496,7 @@ local function fetchString(path, filename, filetype)
     cccPrint("fetching resource: " .. url)
     local request = http.get(url)
     if request == nil then
+        cccPrint("received nil")
         return nil
     end
     return request.readAll()
