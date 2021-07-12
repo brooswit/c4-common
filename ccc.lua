@@ -427,7 +427,7 @@ end
 
 local function decodeJSON(str)
     if type(str) ~= "string" then
-        cccPrint("expected string but got " .. type(str))
+        cccPrint("Cannot decode JSON. Expected string but got " .. type(str))
         return nil
     end
     local res, idx = parse(str, next_char(str, 1, space_chars, true))
@@ -473,9 +473,9 @@ end
 
 local function loadString(path, default)
     cccPrint("loading: " .. path)
-    local file = fs.open("cache.json", "r")
+    local file = fs.open(path, "r")
     if file == nil then
-        cccPrint("loaded nil")
+        cccPrint("Cannot load string. File not found.")
         return default
     end
     local contents = file.readAll()
@@ -484,7 +484,7 @@ local function loadString(path, default)
 end
 
 local function loadJSON(path)
-        cccPrint("loading JSON")
+        cccPrint("loading JSON at " .. path)
         return decodeJSON(loadString(path))
 end
 
