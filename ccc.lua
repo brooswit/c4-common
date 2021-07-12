@@ -595,7 +595,7 @@ local function fetchDependencies(config)
         return
     end
     if config.dependencies ~= nil then
-        for dependency in config.dependencies do
+        for k, dependency in pairs(config.dependencies) do
             fetchDependency(dependency)
         end
     end
@@ -611,7 +611,7 @@ local function install()
     end
     fetchDependencies(ccconfig)
     fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
-        cccPrint("Done installing!")
+    cccPrint("Done installing!")
     if ccconfig.startup ~= nil then
         cccPrint("Starting...")
         require(ccconfig.startup)
