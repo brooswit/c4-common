@@ -427,6 +427,7 @@ end
 
 local function decodeJSON(str)
     if type(str) ~= "string" then
+        cccPrint("expected string but got " .. type(str))
         return nil
     end
     local res, idx = parse(str, next_char(str, 1, space_chars, true))
