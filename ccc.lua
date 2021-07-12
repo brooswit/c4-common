@@ -380,7 +380,7 @@ local char_func_map = {
 }
 
 
-local parse = function(str, idx)
+parse = function(str, idx)
   local chr = str:sub(idx, idx)
   local f = char_func_map[chr]
   if f then
