@@ -560,27 +560,11 @@ end
 -------------------------------------------------------------------------------
 
 local depCache = {}
-local function checkDependency(pathList, cache)
-    if cache == nil then
-        cache = depCache
-    end
-    local copiedPathList = copy(pathList)
-    local head = table.remove(copiedPathList, 1)
-    local valid = cache[head] == nil
-    if not valid then
-        cache[head] = {}
-    end
-    if copiedPathList.getn == 0 then
-        return valid
-    else
-        return checkDependency(copiedPathList, cache[head])
-    end
-end
 
 local function fetchDependency(dependency)
     if dependency.source == "github" then
-        local dependencyExists = not checkDependency({dependency.filename, dependency.filetype})
-        if not dependencyExists then
+        if depCache[dependency.filename .. dependency.filetype] == nil then
+            depCache[dependency.filename .. dependency.filetype] = true
             if config.filetype == "json" then
                 fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
             else
