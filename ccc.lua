@@ -563,7 +563,7 @@ local depCache = {}
 local fetchDependencies
 
 local function fetchDependency(dependency)
-    local fullFileName = dependency.filename .. dependency.filetype
+    local fullFileName = dependency.filename .. "." .. dependency.filetype
     cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.source .. "...")
     if dependency.source == "github" then
         cccPrint("...source is github...")
