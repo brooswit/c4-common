@@ -453,7 +453,7 @@ end
 local function require(path)
     cccPrint("Requiring " .. path)
 
-    os.loadAPI(localPath .. filename)
+    os.loadAPI(path .. filename)
 end
 
 
