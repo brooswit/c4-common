@@ -565,7 +565,7 @@ local function fetchDependency(dependency)
     if dependency.source == "github" then
         if depCache[dependency.filename .. dependency.filetype] == nil then
             depCache[dependency.filename .. dependency.filetype] = true
-            if config.filetype == "json" then
+            if dependency.filetype == "json" then
                 fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
             else
                 fetchGitHubLoad(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
