@@ -462,7 +462,7 @@ local function saveString(path, contents)
     cccPrint("Cannot write file. Path is nil.")
     return
   end
-  if file == '' then
+  if path == "" then
     cccPrint("Cannot write file. Path is ''." )
     return
   end
