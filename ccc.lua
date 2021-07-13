@@ -574,8 +574,8 @@ local fetchDependencies
 
 local function fetchDependency(dependency)
   local fullFileName = dependency.filename .. "." .. dependency.filetype
-  cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.source .. "...")
   if dependency.source == "github" then
+    cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.account .. "/" .. dependency.repo .. " on " .. dependency.source .. "...")
     if depCache[fullFileName] == nil then
       depCache[fullFileName] = true
       if dependency.filetype == "json" then
@@ -584,6 +584,8 @@ local function fetchDependency(dependency)
         fetchGitHubRequire(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
       end
     end
+  else
+    cccPrint("Cannot fetch dependency " .. fullFileName .. " because of unknown source: '" .. dependency.source .. "'.")
   end
 end
 
