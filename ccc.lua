@@ -460,7 +460,12 @@ end
 local function saveString(path, contents)
   cccPrint("Saving " .. path)
     if path == nil then
-        return
+      cccPrint("Cannot write file. Path is nil")
+      return
+    end
+    if file == '' then
+      cccPrint("Cannot write file. Path is ''" )
+      return
     end
     local file = fs.open(path, "w")
     if file == nil then
