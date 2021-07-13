@@ -458,10 +458,15 @@ end
 
 
 local function saveString(path, contents)
+  cccPrint("Saving " .. path)
     if path == nil then
         return
     end
     local file = fs.open(path, "w")
+    if file == nil then
+      cccPrint("Cannot write file: " .. path)
+      return
+    end
     file.write(contents)
     file.close()
 end
