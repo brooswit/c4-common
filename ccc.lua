@@ -575,7 +575,7 @@ local function fetchDependency(dependency)
                 fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
             else
                 cccPrint("...type is lua...")
-                fetchGitHubLoad(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
+                fetchGitHubRequire(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
             end
         end
     end
