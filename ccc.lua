@@ -525,7 +525,7 @@ end
 
 local function fetchRequire(path, filename, filetype)
   fetchSave(path, filename, filetype)
-  require(path .. "." .. filename)
+  require(filename .. "." .. filetype)
 end
 
 
