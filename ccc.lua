@@ -451,7 +451,7 @@ end
 
 
 local function require(path)
-  cccPrint("Requiring " .. path)
+  cccPrint("Requiring '" .. path .. "'")
   os.loadAPI(path)
 end
 
