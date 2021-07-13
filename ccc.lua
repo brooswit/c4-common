@@ -520,7 +520,7 @@ local function fetchJSON(path, filename, filetype)
 end
 
 local function fetchSave(path, filename, filetype)
-  saveString(fetchString(path, filename, filetype))
+  saveString(filename .. "." .. filetype, fetchString(path, filename, filetype))
 end
 
 local function fetchRequire(path, filename, filetype)
