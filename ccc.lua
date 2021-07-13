@@ -440,43 +440,46 @@ end
 
 
 local function copy(obj, seen)
-    if type(obj) ~= 'table' then return obj end
-    if seen and seen[obj] then return seen[obj] end
-    local s = seen or {}
-    local res = setmetatable({}, getmetatable(obj))
-    s[obj] = res
-    for k, v in pairs(obj) do res[copy(k, s)] = copy(v, s) end
-    return res
+  if type(obj) ~= 'table' then return obj end
+  if seen and seen[obj] then return seen[obj] end
+  local s = seen or {}
+  local res = setmetatable({}, getmetatable(obj))
+  s[obj] = res
+  for k, v in pairs(obj) do res[copy(k, s)] = copy(v, s) end
+  return res
 end
 
 
 local function require(path)
-    cccPrint("Requiring " .. path)
-    os.loadAPI(path)
+  cccPrint("Requiring " .. path)
+  os.loadAPI(path)
 end
 
 
 local function saveString(path, contents)
   cccPrint("Saving " .. path)
-    if path == nil then
-      cccPrint("Cannot write file. Path is nil")
-      return
-    end
-    if file == '' then
-      cccPrint("Cannot write file. Path is ''" )
-      return
-    end
-    local file = fs.open(path, "w")
-    if file == nil then
-      cccPrint("Cannot write file: " .. path)
-      return
-    end
-    file.write(contents)
-    file.close()
+  if path == nil then
+    cccPrint("Cannot write file. Path is nil.")
+    return
+  end
+  if file == '' then
+    cccPrint("Cannot write file. Path is ''." )
+    return
+  end
+
+  local file = fs.open(path, "w")
+
+  if file == nil then
+    cccPrint("Cannot write file: '" .. path .. "'.")
+    return
+  end
+
+  file.write(contents)
+  file.close()
 end
 
 local function saveJSON(path, json)
-    return saveString(path, encodeJSON(json))
+  return saveString(path, encodeJSON(json))
 end
 
 
@@ -513,45 +516,45 @@ local function fetchString(path, filename, filetype)
 end
 
 local function fetchJSON(path, filename, filetype)
-    return decodeJSON(fetchString(path, filename, filetype))
+  return decodeJSON(fetchString(path, filename, filetype))
 end
 
 local function fetchSave(path, filename, filetype)
-    saveString(fetchString(path, filename, filetype))
+  saveString(fetchString(path, filename, filetype))
 end
 
 local function fetchRequire(path, filename, filetype)
-    fetchSave(path, filename, filetype)
-    require(path .. filename)
+  fetchSave(path, filename, filetype)
+  require(path .. "." .. filename)
 end
 
 
 local function makeGitHubURLPath(account, repo, branch, path)
-    local url = "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch
+  local url = "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch
 
-    if path ~= nil and path ~= "" then
-        url = url .. "/" .. path
-    end
+  if path ~= nil and path ~= "" then
+      url = url .. "/" .. path
+  end
 
-    cccPrint("building path to github resource: " .. url)
+  cccPrint("building path to github resource: " .. url)
 
-    return url
+  return url
 end
 
 local function fetchGitHubString (account, repo, branch, path, filename, filetype)
-    return fetchString(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+  return fetchString(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 local function fetchGitHubJSON   (account, repo, branch, path, filename, filetype)
-    return fetchJSON(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+  return fetchJSON(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 local function fetchGitHubSave   (account, repo, branch, path, filename, filetype)
-    fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
-    fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+  fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 -------------------------------------------------------------------------------
