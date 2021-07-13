@@ -525,7 +525,7 @@ end
 
 local function fetchRequire(path, filename, filetype)
   fetchSave(path, filename, filetype)
-  require(filename)
+  require(filename .. "." .. filetype)
 end
 
 
@@ -535,8 +535,6 @@ local function makeGitHubURLPath(account, repo, branch, path)
   if path ~= nil and path ~= "" then
       url = url .. "/" .. path
   end
-
-  cccPrint("building path to github resource: " .. url)
 
   return url
 end
@@ -550,7 +548,7 @@ local function fetchGitHubJSON   (account, repo, branch, path, filename, filetyp
 end
 
 local function fetchGitHubSave   (account, repo, branch, path, filename, filetype)
-fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+  fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
@@ -575,37 +573,35 @@ local depCache = {}
 local fetchDependencies
 
 local function fetchDependency(dependency)
-    local fullFileName = dependency.filename .. "." .. dependency.filetype
-    cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.source .. "...")
-    if dependency.source == "github" then
-        cccPrint("...source is github...")
-        if depCache[fullFileName] == nil then
-            cccPrint("...dependency is new...")
-            depCache[fullFileName] = true
-            if dependency.filetype == "json" then
-                cccPrint("...type is json...")
-                fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
-            else
-                cccPrint("...type is lua...")
-                fetchGitHubRequire(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
-            end
-        end
+  local fullFileName = dependency.filename .. "." .. dependency.filetype
+  cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.source .. "...")
+  if dependency.source == "github" then
+    if depCache[fullFileName] == nil then
+      depCache[fullFileName] = true
+      if dependency.filetype == "json" then
+        fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
+      else
+        fetchGitHubRequire(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
+      end
     end
+  end
 end
 
 fetchDependencies =  function(config)
-    cccPrint("Fetching dependencies...")
-    if config == nil then
-        cccPrint("Cannot fetch dependencies. Config is nil.")
-        return
-    end
-    if config.dependencies == nil then
-        cccPrint("Cannot fetch dependencies. Dependencies is nil.")
-        return
-    end
-    for k, dependency in pairs(config.dependencies) do
-        fetchDependency(dependency)
-    end
+  cccPrint("Fetching dependencies...")
+  if config == nil then
+    cccPrint("Cannot fetch dependencies. Config is nil.")
+    return
+  end
+
+  if config.dependencies == nil then
+    cccPrint("Cannot fetch dependencies. Dependencies is nil.")
+    return
+  end
+
+  for k, dependency in pairs(config.dependencies) do
+    fetchDependency(dependency)
+  end
 end
 
 local function install()
