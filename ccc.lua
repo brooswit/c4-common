@@ -520,7 +520,7 @@ end
 local function makeGitHubURLPath(account, repo, branch, path)
     local url = "https://raw.githubusercontent.com/" .. account .. "/" .. repo .. "/" .. branch
 
-    if path ~= nil then
+    if path ~= nil and path ~= "" then
         url = url .. "/" .. path
     end
 
@@ -560,6 +560,7 @@ end
 -------------------------------------------------------------------------------
 
 local depCache = {}
+local fetchDependencies
 
 local function fetchDependency(dependency)
     if dependency.source == "github" then
@@ -574,7 +575,7 @@ local function fetchDependency(dependency)
     end
 end
 
-local function fetchDependencies(config)
+fetchDependencies =  function(config)
     if config == nil then
         return
     end
