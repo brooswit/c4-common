@@ -563,12 +563,18 @@ local depCache = {}
 local fetchDependencies
 
 local function fetchDependency(dependency)
+    local fullFileName = dependency.filename .. dependency.filetype
+    cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.source .. "...")
     if dependency.source == "github" then
-        if depCache[dependency.filename .. dependency.filetype] == nil then
-            depCache[dependency.filename .. dependency.filetype] = true
+        cccPrint("...source is github...")
+        if depCache[fullFileName] == nil then
+            cccPrint("...dependency is new...")
+            depCache[fullFileName] = true
             if dependency.filetype == "json" then
+                cccPrint("...type is json...")
                 fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
             else
+                cccPrint("...type is lua...")
                 fetchGitHubLoad(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
             end
         end
@@ -576,13 +582,17 @@ local function fetchDependency(dependency)
 end
 
 fetchDependencies =  function(config)
+    cccPrint("Fetching dependencies...")
     if config == nil then
+        cccPrint("Cannot fetch dependencies. Config is nil.")
         return
     end
-    if config.dependencies ~= nil then
-        for k, dependency in pairs(config.dependencies) do
-            fetchDependency(dependency)
-        end
+    if config.dependencies == nil then
+        cccPrint("Cannot fetch dependencies. Dependencies is nil.")
+        return
+    end
+    for k, dependency in pairs(config.dependencies) do
+        fetchDependency(dependency)
     end
 end
 
