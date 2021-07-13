@@ -504,7 +504,7 @@ local function fetchString(path, filename, filetype)
 end
 
 local function fetchJSON(path, filename, filetype)
-    decodeJSON(fetchString(path, filename, filetype))
+    return decodeJSON(fetchString(path, filename, filetype))
 end
 
 local function fetchSave(path, filename, filetype)
