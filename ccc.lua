@@ -520,7 +520,7 @@ local function fetchString(path, filename, filetype)
 
   local url = path .. "/" .. filename .. "." .. filetype
 
-  cccPrint("Fetching resource: '" .. filename .. "." .. filetype .. "'")
+  cccPrint("Fetching '" .. filename .. "." .. filetype .. "'")
 
   local request = http.get(url)
 
