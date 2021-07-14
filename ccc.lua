@@ -520,12 +520,12 @@ local function fetchString(path, filename, filetype)
 
   local url = path .. "/" .. filename .. "." .. filetype
 
-  cccPrint("Fetching resource: " .. url)
+  cccPrint("Fetching resource: '" .. filename .. "." .. filetype .. "'")
 
   local request = http.get(url)
 
   if request == nil then
-    cccPrint("received nil")
+    cccPrint("Fetch failed")
     return nil
   end
 
