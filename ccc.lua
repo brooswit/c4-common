@@ -457,7 +457,7 @@ end
 
 
 local function saveString(path, contents)
-  cccPrint("Saving " .. path)
+  cccPrint("Saving '" .. path .. "'.")
   if path == nil then
     cccPrint("Cannot write file. Path is nil.")
     return
@@ -484,7 +484,7 @@ end
 
 
 local function loadString(path, default)
-  cccPrint("Loading: " .. path)
+  cccPrint("Loading '" .. path .. "'.")
   if path == nil then
     cccPrint("Cannot load file. Path is nil. Returning default.")
     return default
@@ -520,7 +520,7 @@ local function fetchString(path, filename, filetype)
 
   local url = path .. "/" .. filename .. "." .. filetype
 
-  cccPrint("Fetching '" .. filename .. "." .. filetype .. "'")
+  cccPrint("Fetching '" .. filename .. "." .. filetype .. "'.")
 
   local request = http.get(url)
 
