@@ -484,22 +484,32 @@ end
 
 
 local function loadString(path, default)
-  cccPrint("loading: " .. path)
+  cccPrint("Loading: " .. path)
+  if path == nil then
+    cccPrint("Cannot load file. Path is nil. Returning default.")
+    return default
+  end
+  if path == "" then
+    cccPrint("Cannot load file. Path is ''. Returning default." )
+    return default
+  end
+
   local file = fs.open(path, "r")
 
   if file == nil then
-    cccPrint("Cannot load string. File not found.")
+    cccPrint("Cannot load string. File not found. Returning default.")
     return default
   end
 
   local contents = file.readAll()
+
   file.close()
+
   return contents
 end
 
-local function loadJSON(path)
-  cccPrint("loading JSON at " .. path)
-  return decodeJSON(loadString(path))
+local function loadJSON(path, default)
+  return decodeJSON(loadString(path, default))
 end
 
 
@@ -509,12 +519,16 @@ local function fetchString(path, filename, filetype)
   end
 
   local url = path .. "/" .. filename .. "." .. filetype
-  cccPrint("fetching resource: " .. url)
+
+  cccPrint("Fetching resource: " .. url)
+
   local request = http.get(url)
+
   if request == nil then
     cccPrint("received nil")
     return nil
   end
+
   return request.readAll()
 end
 
@@ -527,7 +541,6 @@ local function fetchSave(path, filename, filetype)
     filetype = 'lua'
   end
 
-  cccPrint("Fetching and saving...")
   saveString(filename .. "." .. filetype, fetchString(path, filename, filetype))
 end
 
@@ -536,7 +549,6 @@ local function fetchRequire(path, filename, filetype)
     filetype = 'lua'
   end
 
-  cccPrint("Fetching and requiring...")
   fetchSave(path, filename, filetype)
   require(filename .. "." .. filetype)
 end
@@ -561,12 +573,10 @@ local function fetchGitHubJSON   (account, repo, branch, path, filename, filetyp
 end
 
 local function fetchGitHubSave   (account, repo, branch, path, filename, filetype)
-  cccPrint("Fetching github and saving...")
   fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
-  cccPrint("Fetching github and requiring...")
   fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
@@ -590,18 +600,17 @@ local fetchDependencies
 local function fetchDependency(dependency)
   local fullFileName = dependency.filename .. "." .. dependency.filetype
   if dependency.source == "github" then
-    cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.account .. "/" .. dependency.repo .. " on " .. dependency.source .. "...")
+    -- cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.account .. "/" .. dependency.repo .. " on " .. dependency.source .. "...")
     if depCache[fullFileName] == nil then
       depCache[fullFileName] = true
       if dependency.filetype == "json" then
         fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
       else
-        cccPrint('fetching dep now')
         fetchGitHubRequire(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
       end
     end
   else
-    cccPrint("Cannot fetch dependency " .. fullFileName .. " because of unknown source: '" .. dependency.source .. "'.")
+    cccPrint("Cannot fetch dependency " .. fullFileName .. " because source is unknown: '" .. dependency.source .. "'.")
   end
 end
 
@@ -630,10 +639,13 @@ local function install()
         ccconfig = {}
         saveJSON("ccconfig.json", ccconfig)
     end
+
     fetchDependencies(ccconfig)
-    cccPrint('installing...')
-    fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
+
+    -- fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
+
     cccPrint("Done installing!")
+
     if ccconfig.startup ~= nil then
         cccPrint("Starting...")
         require(ccconfig.startup)
