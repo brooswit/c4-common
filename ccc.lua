@@ -485,7 +485,9 @@ local function saveString(path, contents, silent)
 end
 
 local function saveJSON(path, json)
-  return saveString(path, encodeJSON(json))
+  cccPrint("Saving JSON '" .. path .. "'.")
+
+  return saveString(path, encodeJSON(json), true)
 end
 
 
@@ -518,7 +520,8 @@ local function loadString(path, default, silent)
 end
 
 local function loadJSON(path, default)
-  return decodeJSON(loadString(path, default))
+  cccPrint("Loading JSON '" .. path .. "'.")
+  return decodeJSON(loadString(path, default, true))
 end
 
 
