@@ -520,10 +520,12 @@ local function fetchJSON(path, filename, filetype)
 end
 
 local function fetchSave(path, filename, filetype)
+  cccPrint("Fetching and saving...")
   saveString(filename .. "." .. filetype, fetchString(path, filename, filetype))
 end
 
 local function fetchRequire(path, filename, filetype)
+  cccPrint("Fetching and requiring...")
   fetchSave(path, filename, filetype)
   require(filename .. "." .. filetype)
 end
@@ -548,10 +550,12 @@ local function fetchGitHubJSON   (account, repo, branch, path, filename, filetyp
 end
 
 local function fetchGitHubSave   (account, repo, branch, path, filename, filetype)
+  cccPrint("Fetching github and saving...")
   fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
 local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
+  cccPrint("Fetching github and requiring...")
   fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
 end
 
@@ -581,6 +585,7 @@ local function fetchDependency(dependency)
       if dependency.filetype == "json" then
         fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
       else
+        cccPrint('fetching dep now')
         fetchGitHubRequire(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype)
       end
     end
@@ -615,6 +620,7 @@ local function install()
         saveJSON("ccconfig.json", ccconfig)
     end
     fetchDependencies(ccconfig)
+    cccPrint('installing...')
     fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
     cccPrint("Done installing!")
     if ccconfig.startup ~= nil then
