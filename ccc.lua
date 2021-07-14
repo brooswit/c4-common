@@ -450,27 +450,33 @@ local function copy(obj, seen)
 end
 
 
-local function require(path)
-  cccPrint("Requiring '" .. path .. "'")
+local function require(path, silent)
+  if not silent then
+    cccPrint("Requiring '" .. path .. "'")
+  end
+
   os.loadAPI(path)
 end
 
 
-local function saveString(path, contents)
-  cccPrint("Saving '" .. path .. "'.")
+local function saveString(path, contents, silent)
+  if not silent then
+    cccPrint("Saving '" .. path .. "'.")
+  end
+
   if path == nil then
-    cccPrint("Cannot write file. Path is nil.")
+    cccPrint("Cannot save file. Path is nil.")
     return
   end
   if path == "" then
-    cccPrint("Cannot write file. Path is ''." )
+    cccPrint("Cannot save file. Path is ''." )
     return
   end
 
   local file = fs.open(path, "w")
 
   if file == nil then
-    cccPrint("Cannot write file: '" .. path .. "'.")
+    cccPrint("Cannot save file: '" .. path .. "'.")
     return
   end
 
@@ -483,8 +489,11 @@ local function saveJSON(path, json)
 end
 
 
-local function loadString(path, default)
-  cccPrint("Loading '" .. path .. "'.")
+local function loadString(path, default, silent)
+  if not silent then
+    cccPrint("Loading '" .. path .. "'.")
+  end
+
   if path == nil then
     cccPrint("Cannot load file. Path is nil. Returning default.")
     return default
@@ -513,14 +522,16 @@ local function loadJSON(path, default)
 end
 
 
-local function fetchString(path, filename, filetype)
+local function fetchString(path, filename, filetype, silent)
   if not filetype then
     filetype = "lua"
   end
 
   local url = path .. "/" .. filename .. "." .. filetype
 
-  cccPrint("Fetching '" .. filename .. "." .. filetype .. "'.")
+  if not silent then
+    cccPrint("Fetching '" .. filename .. "." .. filetype .. "'.")
+  end
 
   local request = http.get(url)
 
@@ -533,7 +544,7 @@ local function fetchString(path, filename, filetype)
 end
 
 local function fetchJSON(path, filename, filetype)
-  return decodeJSON(fetchString(path, filename, filetype))
+  return decodeJSON(fetchString(path, filename, filetype, true))
 end
 
 local function fetchSave(path, filename, filetype)
@@ -541,7 +552,7 @@ local function fetchSave(path, filename, filetype)
     filetype = 'lua'
   end
 
-  saveString(filename .. "." .. filetype, fetchString(path, filename, filetype))
+  saveString(filename .. "." .. filetype, fetchString(path, filename, filetype, true), true)
 end
 
 local function fetchRequire(path, filename, filetype)
@@ -549,8 +560,8 @@ local function fetchRequire(path, filename, filetype)
     filetype = 'lua'
   end
 
-  fetchSave(path, filename, filetype)
-  require(filename .. "." .. filetype)
+  fetchSave(path, filename, filetype, true)
+  require(filename .. "." .. filetype, true)
 end
 
 
@@ -564,20 +575,36 @@ local function makeGitHubURLPath(account, repo, branch, path)
   return url
 end
 
-local function fetchGitHubString (account, repo, branch, path, filename, filetype)
-  return fetchString(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+local function fetchGitHubString (account, repo, branch, path, filename, filetype, silent)
+  if not silent then
+    cccPrint("Fetching string from GitHub '" .. filename .. "." .. filetype .. "'.")
+  end
+
+  return fetchString(makeGitHubURLPath(account, repo, branch, path), filename, filetype, true)
 end
 
-local function fetchGitHubJSON   (account, repo, branch, path, filename, filetype)
-  return fetchJSON(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+local function fetchGitHubJSON   (account, repo, branch, path, filename, filetype, silent)
+  if not silent then
+    cccPrint("Fetching JSON from GitHub '" .. filename .. "." .. filetype .. "'.")
+  end
+
+  return fetchJSON(makeGitHubURLPath(account, repo, branch, path), filename, filetype, true)
 end
 
-local function fetchGitHubSave   (account, repo, branch, path, filename, filetype)
-  fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+local function fetchGitHubSave   (account, repo, branch, path, filename, filetype, silent)
+  if not silent then
+    cccPrint("Fetching and saving from GitHub '" .. filename .. "." .. filetype .. "'.")
+  end
+
+  fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype, true)
 end
 
 local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
-  fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype)
+  if not silent then
+    cccPrint("Fetching and requiring from GitHub '" .. filename .. "." .. filetype .. "'.")
+  end
+
+  fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype, true)
 end
 
 -------------------------------------------------------------------------------
