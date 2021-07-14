@@ -484,35 +484,38 @@ end
 
 
 local function loadString(path, default)
-    cccPrint("loading: " .. path)
-    local file = fs.open(path, "r")
-    if file == nil then
-        cccPrint("Cannot load string. File not found.")
-        return default
-    end
-    local contents = file.readAll()
-    file.close()
-    return contents
+  cccPrint("loading: " .. path)
+  local file = fs.open(path, "r")
+
+  if file == nil then
+    cccPrint("Cannot load string. File not found.")
+    return default
+  end
+
+  local contents = file.readAll()
+  file.close()
+  return contents
 end
 
 local function loadJSON(path)
-        cccPrint("loading JSON at " .. path)
-        return decodeJSON(loadString(path))
+  cccPrint("loading JSON at " .. path)
+  return decodeJSON(loadString(path))
 end
 
 
 local function fetchString(path, filename, filetype)
-    if not filetype then
-        filetype = "lua"
-    end
-    local url = path .. "/" .. filename .. "." .. filetype
-    cccPrint("fetching resource: " .. url)
-    local request = http.get(url)
-    if request == nil then
-        cccPrint("received nil")
-        return nil
-    end
-    return request.readAll()
+  if not filetype then
+    filetype = "lua"
+  end
+
+  local url = path .. "/" .. filename .. "." .. filetype
+  cccPrint("fetching resource: " .. url)
+  local request = http.get(url)
+  if request == nil then
+    cccPrint("received nil")
+    return nil
+  end
+  return request.readAll()
 end
 
 local function fetchJSON(path, filename, filetype)
@@ -520,11 +523,19 @@ local function fetchJSON(path, filename, filetype)
 end
 
 local function fetchSave(path, filename, filetype)
+  if filetype == nil then
+    filetype = 'lua'
+  end
+
   cccPrint("Fetching and saving...")
   saveString(filename .. "." .. filetype, fetchString(path, filename, filetype))
 end
 
 local function fetchRequire(path, filename, filetype)
+  if filetype == nil then
+    filetype = 'lua'
+  end
+
   cccPrint("Fetching and requiring...")
   fetchSave(path, filename, filetype)
   require(filename .. "." .. filetype)
