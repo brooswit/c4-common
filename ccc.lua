@@ -631,8 +631,9 @@ local function fetchDependency(dependency)
   local fullFileName = dependency.filename .. "." .. dependency.filetype
   if dependency.source == "github" then
     -- cccPrint("Fetching dependency " .. fullFileName .. " from " .. dependency.account .. "/" .. dependency.repo .. " on " .. dependency.source .. "...")
-    if depCache[fullFileName] == nil then
-      depCache[fullFileName] = true
+    local uniqueId = dependency.account .. "/" .. dependency.repo .. "/" .. dependency.branch .. "/" .. dependency.path .. "/" .. dependency.filename .. "." .. dependency.filetype
+    if depCache[uniqueId] == nil then
+      depCache[uniqueId] = true
       if dependency.filetype == "json" then
         fetchDependencies(fetchGitHubJSON(dependency.account, dependency.repo, dependency.branch, dependency.path, dependency.filename, dependency.filetype))
       else
