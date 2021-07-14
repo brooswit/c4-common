@@ -596,7 +596,7 @@ end
 
 local function fetchGitHubSave   (account, repo, branch, path, filename, filetype, silent)
   if not silent then
-    cccPrint("Fetching and saving from GitHub '" .. filename .. "." .. filetype .. "'.")
+    cccPrint("Fetching/saving from GitHub '" .. filename .. "." .. filetype .. "'.")
   end
 
   fetchSave(makeGitHubURLPath(account, repo, branch, path), filename, filetype, true)
@@ -604,7 +604,7 @@ end
 
 local function fetchGitHubRequire(account, repo, branch, path, filename, filetype)
   if not silent then
-    cccPrint("Fetching and requiring from GitHub '" .. filename .. "." .. filetype .. "'.")
+    cccPrint("Fetching/requiring from GitHub '" .. filename .. "." .. filetype .. "'.")
   end
 
   fetchRequire(makeGitHubURLPath(account, repo, branch, path), filename, filetype, true)
