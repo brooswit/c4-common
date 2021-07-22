@@ -683,25 +683,18 @@ local function download()
   end
 end
 
-local function install(account, repo, branch, path, filename, filetype) {
-  fetchDependency({
-    account = account,
-    repo = repo,
-    branch = branch
-  })
-}
-
 cccPrint("Thanks for using CCC!")
 
 args = {...}
 
-local source = args[1]
-local account = args[2]
-local repo = args[3]
-local branch = args[4]
-local path = args[5]
-local filename = args[6]
-local filetype = args[7]
+local action  = agrs[1]
+local source  = args[2]
+local account = args[3]
+local repo    = args[4]
+local branch  = args[5]
+local path    = args[6]
+local filename = args[7]
+local filetype = args[8]
 
 if source ~= nil
   and account ~= nil
