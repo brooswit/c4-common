@@ -697,14 +697,23 @@ local path     = args[6]
 local filename = args[7]
 local filetype = args[8]
 
-if  action   ~= nil
-and source   ~= nil
-and account  ~= nil
-and repo     ~= nil
-and branch   ~= nil
-and path     ~= nil
-and filename ~= nil
-and filetype ~= nil then
+if action       == nil then
+  print('action is nil')
+elseif source   == nil then
+  print('source is nil')
+elseif account  == nil then
+  print('account is nil')
+elseif repo     == nil then
+  print('repo is nil')
+elseif branch   == nil then
+  print('branch is nil')
+elseif path     == nil then
+  print('path is nil')
+elseif filename == nil then
+  print('filename is nil')
+elseif filetype == nil then
+  print('filetype is nil')
+else
   if action ~= 'install' then
     print('unknown action "' .. action .. '"')
   else
