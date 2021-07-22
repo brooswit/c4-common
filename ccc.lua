@@ -709,7 +709,7 @@ if source ~= nil
     ccconfig = {}
   end
 
-  if ccconfig.dependencies == nil
+  if ccconfig.dependencies == nil then
     ccconfig.dependencies = {}
   end
 
