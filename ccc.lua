@@ -707,7 +707,7 @@ and filetype ~= nil then
   if action ~= 'install' then
     print('unknown action "' .. action .. '"')
   else
-    pring ('installing...')
+    print ('installing...')
     if source ~= 'github' then
       print('unknown source "' .. source .. '"')
     else
