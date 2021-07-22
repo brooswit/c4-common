@@ -530,7 +530,8 @@ local function fetchString(path, filename, filetype, silent)
     filetype = "lua"
   end
 
-  local url = path .. "/" .. filename .. "." .. filetype
+  local cacheBuster = ("%x"):format(math.random(0, 2 ^ 30))
+  local url = path .. "/" .. filename .. "." .. filetype .. "?cb=" .. cacheBuster
 
   if not silent then
     cccPrint("Fetch '" .. filename .. "." .. filetype .. "'.")
