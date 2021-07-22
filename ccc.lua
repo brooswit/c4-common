@@ -1,3 +1,5 @@
+args = {...}
+
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -- Begin JSON stuff
@@ -685,8 +687,6 @@ local function download()
 end
 
 cccPrint("Thanks for using CCC!")
-
-args = {...}
 
 local action   = args[1]
 local source   = args[2]
