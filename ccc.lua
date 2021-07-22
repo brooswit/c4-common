@@ -687,7 +687,7 @@ cccPrint("Thanks for using CCC!")
 
 args = {...}
 
-local action  = agrs[1]
+local action  = args[1]
 local source  = args[2]
 local account = args[3]
 local repo    = args[4]
