@@ -662,30 +662,77 @@ fetchDependencies =  function(config)
   end
 end
 
-local function install()
-    cccPrint("Installing...")
-    local ccconfig = loadJSON("ccconfig.json")
-    if ccconfig == nil then
-        cccPrint("No config! Creating a new one.")
-        ccconfig = {}
-        saveJSON("ccconfig.json", ccconfig)
-    end
+local function download()
+  cccPrint("downloading...")
+  local ccconfig = loadJSON("ccconfig.json")
+  if ccconfig == nil then
+    cccPrint("No config! Creating a new one.")
+    ccconfig = {}
+    saveJSON("ccconfig.json", ccconfig)
+  end
 
-    fetchDependencies(ccconfig)
+  fetchDependencies(ccconfig)
 
-    -- fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
+  -- fetchGitHubSave("brooswit", "ccc", "master", nil, "startup")
 
-    cccPrint("Done installing!")
+  cccPrint("Done downloading!")
 
-    if ccconfig.startup ~= nil then
-        cccPrint("Starting...")
-        require(ccconfig.startup)
-    end
+  if ccconfig.startup ~= nil then
+    cccPrint("Starting...")
+    require(ccconfig.startup)
+  end
 end
+
+local function install(account, repo, branch, path, filename, filetype) {
+  fetchDependency({
+    account = account,
+    repo = repo,
+    branch = branch
+  })
+}
 
 cccPrint("Thanks for using CCC!")
 
-install()
+args = {...}
+
+local source = args[1]
+local account = args[2]
+local repo = args[3]
+local branch = args[4]
+local path = args[5]
+local filename = args[6]
+local filetype = args[7]
+
+if source ~= nil
+  and account ~= nil
+  and repo ~= nil
+  and branch ~= nil
+  and path ~= nil
+  and filename ~= nil
+  and filetype ~= nil then
+  local ccconfig = loadJSON( "ccconfig.json" )
+  if ccconfig == nil then
+    cccPrint( "No config! Creating a new one." )
+    ccconfig = {}
+  end
+
+  if ccconfig.dependencies == nil
+    ccconfig.dependencies = {}
+  end
+
+  table.insert(ccconfig.dependencies, {
+    account = account,
+    repo = repo,
+    branch = branch,
+    path = path,
+    filename = filename,
+    filetype = filetype
+  })
+
+  saveJSON("ccconfig.json", ccconfig)
+end
+
+download()
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
