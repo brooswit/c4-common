@@ -712,6 +712,7 @@ elseif path     == nil then
 elseif filename == nil then
   print('filename is nil')
 elseif filetype == nil then
+  print('filename is ' .. filename)
   print('filetype is nil')
 else
   if action ~= 'install' then
