@@ -733,6 +733,7 @@ else
       end
 
       table.insert(ccconfig.dependencies, {
+        source = source,
         account = account,
         repo = repo,
         branch = branch,
