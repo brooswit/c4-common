@@ -688,6 +688,18 @@ end
 
 cccPrint("Thanks for using CCC!")
 
+if not fs.exists( "ccconfig.json" ) then
+  local disks = { 'disk', 'disk2', 'disk3', 'disk4', 'disk5' }
+  local path = nil
+  for k, disk in pairs(disks) do
+    if fs.exists(disk .. '/ccconfig.json') then
+      if not fs.exists( "ccconfig.json" ) then
+        saveString('ccconfig.json', loadString(disk .. '/ccconfig.json'))
+      end
+    end
+  end
+end
+
 local action   = args[1]
 local source   = args[2]
 local account  = args[3]
