@@ -1,6 +1,0 @@
-local cacheBuster = ("%x"):format(math.random(0, 2 ^ 30))
-local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/ccc.lua?cb=" .. cacheBuster)
-local file = fs.open("ccc.lua", "w")
-file.write(request.readAll())
-file.close()
-os.loadAPI("ccc.lua")

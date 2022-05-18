@@ -1,5 +1,0 @@
-local request = http.get("https://raw.githubusercontent.com/brooswit/ccc/master/startup.lua")
-local file = fs.open("startup.lua", "w")
-file.write(request.readAll())
-file.close()
-os.loadAPI("startup.lua")
