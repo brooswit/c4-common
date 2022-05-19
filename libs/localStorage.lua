@@ -1,5 +1,6 @@
+
 local function buildStoreFileName(storeName)
-    return storeName .. '.json'
+    return storeName .. '.cc'
 end
 
 local function buildStorePathList(storeFileName)
@@ -28,7 +29,7 @@ local function load(storeName)
                 local storeContents = file.readAll()
                 file.close()
                 local ran
-                ran, decodedStore = pcall(json.decode, storeContents)
+                ran, decodedStore = pcall(textutils.unserialize, storeContents)
                 if ran and type(decodedStore) == 'table' then
                     data = decodedStore
                     save(storeName, data)
@@ -41,7 +42,7 @@ local function load(storeName)
 end
 
 save = function (storeName, data)
-    local ran, text = pcall(json.encode, data)
+    local ran, text = pcall(textutils.serialize, data)
     if not ran then
         text = "{}"
     end
