@@ -1,5 +1,3 @@
-os.loadAPI('json.lua')
-
 local function buildStoreFileName(storeName)
     return storeName .. '.json'
 end
