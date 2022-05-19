@@ -1,4 +1,3 @@
-
 local function buildStoreFileName(storeName)
     return storeName .. '.cc'
 end
